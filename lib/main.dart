@@ -12,7 +12,7 @@ void main() async {
   await AudioService.init(
     builder: () => AudioPlayerHandler(),
     config: const AudioServiceConfig(
-      androidNotificationChannelId: 'com.example.myapp.channel.audio',
+      androidNotificationChannelId: 'com.example.myapp',
       androidNotificationChannelName: 'Audio Playback',
       androidNotificationOngoing: true,
     ),

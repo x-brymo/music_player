@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-Future<void> requestAudioPermissions() async {
+Future<void> requestAudioPermissions1() async {
   var status = await Permission.microphone.status;
 
   if (!status.isGranted) {
@@ -19,7 +19,7 @@ Future<void> requestAudioPermissions() async {
   if (!notificationStatus.isGranted) {
     await Permission.notification.request();
   }
-  var bluetoothStatus = await Permission.bluetooth.status;
+  var bluetoothStatus = await Permission.audio.status;
 
   if (!bluetoothStatus.isGranted) {
     await Permission.bluetooth.request();
@@ -68,5 +68,22 @@ Future<bool> checkPermissionFor(Permission name) async {
         await Permission.photos.status.isLimited;
   } else {
     return false;
+  }
+}
+Future<void> requestAudioPermissions() async {
+  // permission audo
+  final audioStatus = await Permission.audio.request();
+  if (audioStatus.isDenied || audioStatus.isPermanentlyDenied) {
+    throw Exception('Audio permission is required.');
+  }
+  // forground 
+  final foregroundStatus = await Permission.notification.request();
+  if (foregroundStatus.isDenied || foregroundStatus.isPermanentlyDenied) {
+    throw Exception('Foreground permission is required.');
+  }
+// music
+  final musicStatus = await Permission.storage.request();
+  if (musicStatus.isDenied || musicStatus.isPermanentlyDenied) {
+    throw Exception('Storage permission is required.');
   }
 }
